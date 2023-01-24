@@ -33,9 +33,9 @@ public class DashboardPage {
     return Integer.parseInt(value);
   }
 
-  public LoginPageV2 selectCardButton(String cardId) {
+  public TransferPage selectCardButton(String cardId) {
     SelenideElement element = $("[data-test-id='" + cardId + "']");
     element.find("button[data-test-id=action-deposit]").click();
-    return new LoginPageV2();
+    return new TransferPage();
   }
 }

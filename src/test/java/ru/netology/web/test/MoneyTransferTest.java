@@ -1,24 +1,24 @@
 package ru.netology.web.test;
 
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
-import ru.netology.web.page.LoginPageV1;
-import ru.netology.web.page.LoginPageV2;
-import ru.netology.web.page.LoginPageV3;
+import ru.netology.web.page.DashboardPage;
+import ru.netology.web.page.LoginPage;
+
 import static com.codeborne.selenide.Selenide.open;
-import org.junit.jupiter.api.Assertions;
 import static ru.netology.web.data.DataHelper.getFirstCardInfo;
 import static ru.netology.web.data.DataHelper.getSecondCardInfo;
 
 
 public class MoneyTransferTest {
-  LoginPageV1 loginPage;
+  LoginPage loginPage;
 
   @BeforeEach
   void setup() {
-    loginPage = open("http://localhost:9999", LoginPageV1.class);
+    loginPage = open("http://localhost:9999", LoginPage.class);
     Configuration.holdBrowserOpen = true;
     Configuration.startMaximized = true;
   }
@@ -31,11 +31,11 @@ public class MoneyTransferTest {
     var dashboardPage = verificationPage.validVerify(verificationCode);
     var firstCardInfo = getFirstCardInfo();
     var secondCardInfo = getSecondCardInfo();
-    int amountInput = 15000;
+    int amountInput = 1000;
     var firstCardBalanceStart = dashboardPage.getFirstCardBalance() - amountInput;
     var secondCardBalanceStart = dashboardPage.getSecondCardBalance() + amountInput;
-    var LoginPageV2 = dashboardPage.selectCardButton(secondCardInfo.getTestId());
-    dashboardPage = LoginPageV2.cardReplenishment(Integer.parseInt(String.valueOf(amountInput)), String.valueOf(firstCardInfo));
+    var TransferPage = dashboardPage.selectCardButton(secondCardInfo.getTestId());
+    dashboardPage = TransferPage.cardReplenishment(Integer.parseInt(String.valueOf(amountInput)), String.valueOf(firstCardInfo));
     var firstCardBalanceFinish = dashboardPage.getFirstCardBalance();
     var secondCardBalanceFinish = dashboardPage.getSecondCardBalance();
     Assertions.assertEquals(firstCardBalanceStart, firstCardBalanceFinish);
@@ -50,11 +50,11 @@ public class MoneyTransferTest {
     var dashboardPage = verificationPage.validVerify(verificationCode);
     var firstCard = getFirstCardInfo();
     var secondCard = getSecondCardInfo();
-    int amountInput = 1000;
+    int amountInput = 100;
     var firstCardBalanceStart = dashboardPage.getFirstCardBalance() + amountInput;
     var secondCardBalanceStart = dashboardPage.getSecondCardBalance() - amountInput;
-    var LoginPageV2 = dashboardPage.selectCardButton(firstCard.getTestId());
-    dashboardPage = LoginPageV2.cardReplenishment(Integer.parseInt(String.valueOf(amountInput)), String.valueOf(secondCard));
+    var TransferPage = dashboardPage.selectCardButton(firstCard.getTestId());
+    dashboardPage = TransferPage.cardReplenishment(Integer.parseInt(String.valueOf(amountInput)), String.valueOf(secondCard));
     var firstCardBalanceFinish = dashboardPage.getFirstCardBalance();
     var secondCardBalanceFinish = dashboardPage.getSecondCardBalance();
     Assertions.assertEquals(firstCardBalanceStart, firstCardBalanceFinish);
